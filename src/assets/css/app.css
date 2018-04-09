@@ -14,3 +14,6 @@ body {
     cursor: pointer;
     text-decoration: underline!important;
 }
+.login-jumbo{
+    transform: translateY(50%);
+}
