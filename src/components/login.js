@@ -9,12 +9,21 @@ class Login extends Component{
             form:{
                 username:'',
                 password: ''
-            }
+            },
+            getUsers: this.getUsers(),
+            users: []
         }
         this.handleSubmit=this.handleSubmit.bind(this);
     }
-    componentWillMount(){
-        console.log('we will make axios call here');
+    async getUsers(){
+        const response = await axios({
+            method:'get',
+            url:'http://localhost:8080/api/users',
+          });
+          console.log('this is the response from api', response);
+        this.setState({
+            users:response.data[0]
+        })
     }
     handleInput(e){
         const {value, name}= e.target;
@@ -26,9 +35,17 @@ class Login extends Component{
     }
     handleSubmit(e){
         e.preventDefault();
-        console.log('these are the values of the inputs ', this.state.form);
-        this.reset()
-        this.props.history.push('/home');
+        const {username, password}= this.state.form;
+        const users= this.state.users;
+        console.log('these are the values of the inputs ', this.state);
+        if(username===users['username'] && password===users['password']){
+            console.log('it worked!');
+            this.props.history.push('/home');
+
+        }else{
+            console.log('it didnt work');
+            this.reset();
+        }        
     }
     reset(){
         this.setState({
@@ -60,7 +77,7 @@ class Login extends Component{
                                 <div className="col-4">
                                     <div className="form-group">
                                         <label htmlFor="password" >Password</label>
-                                        <input placeholder= "Password" className="form-control" type="text" 
+                                        <input placeholder= "Password" className="form-control" type="password" 
                                         name="password" value={password} 
                                         onChange= {((e)=>this.handleInput(e))}/>
                                     </div>
