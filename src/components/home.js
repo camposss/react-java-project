@@ -41,8 +41,6 @@ class Home extends Component{
         const {value, name}= e.target;
         const {form}= this.state;
         form[name]= value;
-        console.log(form);
-
         this.setState({
             form: {...form}
         });
@@ -58,17 +56,12 @@ class Home extends Component{
             for(let employeeProperty in item){
                 if(employeeProperty==='name'){
                     if(item[employeeProperty].includes(input) && typeof(item[employeeProperty]!=='integer') ){
-                        console.log('we found something that contains this value',item[employeeProperty]);
                         filteredArray.push(item);
-                        console.log('this is the array with object we want to return ', filteredArray);
                     }
                 }
                 else if(employeeProperty==='id'){
-                    console.log('this is the value of the property', item[employeeProperty]);
                     if(item[employeeProperty]===parseInt(input)){
-                        console.log('we found something that contains this value',item[employeeProperty]);
                         filteredArray.push(item);
-                        console.log('this is the array with object we want to return ', filteredArray);
                     }
                 }
             }
@@ -77,7 +70,6 @@ class Home extends Component{
             console.log('we are returning nothing');
         }else{
             const filteredList= filteredArray.map((item, index)=>{
-                console.log('this is the item in filtered LIst', item);
                 return (
                     <tr key={index}>
                         <td>{item.name}</td>
