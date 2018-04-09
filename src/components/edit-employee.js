@@ -7,14 +7,13 @@ class EditEmployee extends Component{
         this.state={
             form:{
                 name: '',
-                phoneNumber:'',
+                phoneNumber: '',
                 supervisor: ''
-            }
+            }   
         }
         this.handleSubmit=this.handleSubmit.bind(this);
     }
-    async componentDidMount(){
-        console.log("these are the props in edit page", this.props);
+    async componentWillMount(){
         const employeeId= this.props.match.params.id;
         const updateUrl= 'http://localhost:8080/api/employees/'+ employeeId;
         const response = await axios({
@@ -22,6 +21,7 @@ class EditEmployee extends Component{
             url: updateUrl,
           });
         console.log('this is the employee data ', response.data);
+        const data= response.data;
         const {name, phoneNumber, supervisor}= response.data;
         this.setState({
             form:{
@@ -33,17 +33,22 @@ class EditEmployee extends Component{
     }
     handleInput(e){
         const {value, name}= e.target;
-        const form= this.state;
+        const {form}= this.state;
         form[name]= value;
+        console.log(form);
+        
         this.setState({
-            form: {...form}
+            form:{...form}
         });
     }
     async handleSubmit(event){
         event.preventDefault();
+        console.log(event);
         const {name,phoneNumber,supervisor}= this.state.form;
+        console.log('these are the inputs according to state after submit ', name, phoneNumber, supervisor);
 
         const employeeId= this.props.match.params.id;
+        console.log(employeeId);
         const updateUrl= 'http://localhost:8080/api/employees/'+ employeeId;
         const response = await axios({
             method:'put',
@@ -55,11 +60,7 @@ class EditEmployee extends Component{
             }
           });
         console.log('this is the employee data ', response.data);
-        console.log('these are teh props', this.props);
         this.props.history.push('/home');
-        // this.setState({
-        //     employees:response.data
-        // });
     }
     render(){
         const {name,phoneNumber,supervisor}= this.state.form;
