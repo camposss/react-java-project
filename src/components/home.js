@@ -13,22 +13,23 @@ class Home extends Component{
                 phoneNumber: "8886756574",
                 supervisor: "Jorge Manuela"
             },
+            getEmployees: this.getEmployees(),
             employees: []
         }
         this.addEmployee=this.addEmployee.bind(this);
     }
-    async componentWillMount(){
-        console.log('we made it here');
-        const response = await axios({
-            method:'get',
-            url:'http://localhost:8080/api/employees/home',
-            responseType:'stream'
-          });
-        console.log('this is the employee data ', response.data);
-        this.setState({
-            employees:response.data
-        })
-    }
+    // async componentWillMount(){
+    //     console.log('we made it here');
+    //     const response = await axios({
+    //         method:'get',
+    //         url:'http://localhost:8080/api/employees/home',
+    //         responseType:'stream'
+    //       });
+    //     console.log('this is the employee data ', response.data);
+    //     this.setState({
+    //         employees:response.data
+    //     })
+    // }
     async getEmployees(){
         console.log('we made it here');
         const response = await axios({
@@ -37,34 +38,9 @@ class Home extends Component{
             responseType:'stream'
           });
         console.log('this is the employee data ', response.data);
-        return response.data;
         this.setState({
             employees:response.data
         })
-    }
-    async deleteEmployee(employeeId){
-        // const employeeId= index;
-        // alert('Are you sure you want to delete this?');
-        console.log('this is the id of employee you clicked',employeeId );
-        const updatedUrl= 'http://localhost:8080/api/employees/'+ employeeId;
-        const response = await axios({
-            method:'delete',
-            url: updatedUrl,
-            responseType:'stream'
-          });
-        console.log('this is the employee data after deleting ', response);
-        // this.setState({
-        //     employees:response.data
-        // })
-    }
-    handleInput(e){
-        const {value, name}= e.target;
-        const form= this.state;
-        form[name]= value;
-        console.log(form);
-        this.setState({
-            form: {...form}
-        });
     }
     async addEmployee(event){
         event.preventDefault();
@@ -81,9 +57,28 @@ class Home extends Component{
           })
         console.log('Newly added employee', response);
         this.getEmployees();
-        // this.setState({
-
-        // })
+    }
+    async deleteEmployee(employeeId){
+        // const employeeId= index;
+        // alert('Are you sure you want to delete this?');
+        console.log('this is the id of employee you clicked',employeeId );
+        const updatedUrl= 'http://localhost:8080/api/employees/'+ employeeId;
+        const response = await axios({
+            method:'delete',
+            url: updatedUrl,
+            responseType:'stream'
+          });
+        console.log('this is the employee data after deleting ', response);
+        this.getEmployees();
+    }
+    handleInput(e){
+        const {value, name}= e.target;
+        const form= this.state;
+        form[name]= value;
+        console.log(form);
+        this.setState({
+            form: {...form}
+        });
     }
     render(){
         const {name,phoneNumber,supervisor}= this.state.form;
