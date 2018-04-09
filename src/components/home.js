@@ -122,11 +122,24 @@ class Home extends Component{
                 <div className="row">
                     <div className="col-lg">
                         <h2 className="text-center">All Employees</h2>
+                            <form action="">
+                                <div className="form-group">
+                                    <div className="row  align-items-end">
+                                        <div className="col-4">
+                                            <label htmlFor="name" >Search</label>
+                                            <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" name="name" value={name} onChange= {((e)=>this.handleInput(e))}/>
+                                        </div>
+                                        <div className="col-2">
+                                            <button className="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         <table className="table pull-left">
                             <thead>
                                 <tr>
                                     <th>Employee Name</th>
-                                    <th> Phone Number</th>
+                                    <th>Phone Number</th>
                                     <th>Supervisor</th>
                                     <th>Operations</th>
                                 </tr>
