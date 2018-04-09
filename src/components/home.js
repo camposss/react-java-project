@@ -10,26 +10,13 @@ class Home extends Component{
         super(props);
         this.state={
             form:{
-                name: "Joey Cardenas",
-                phoneNumber: "8886756574",
-                supervisor: "Jorge Manuela"
+                input: ''
             },
             getEmployees: this.getEmployees(),
             employees: []
         }
+        this.handleSearchInput=this.handleSearchInput.bind(this);
     }
-    // async componentWillMount(){
-    //     console.log('we made it here');
-    //     const response = await axios({
-    //         method:'get',
-    //         url:'http://localhost:8080/api/employees/home',
-    //         responseType:'stream'
-    //       });
-    //     console.log('this is the employee data ', response.data);
-    //     this.setState({
-    //         employees:response.data
-    //     })
-    // }
     async getEmployees(){
         const response = await axios({
             method:'get',
@@ -50,9 +37,64 @@ class Home extends Component{
           });
         this.getEmployees();
     }
+    handleInput(e){
+        const {value, name}= e.target;
+        const {form}= this.state;
+        form[name]= value;
+        console.log(form);
 
+        this.setState({
+            form: {...form}
+        });
+    }
+    handleSearchInput(e){
+        e.preventDefault();
+        console.log('this is the current value of input ', this.state.form);
+    }
+    filterList(){
+        const {input}= this.state.form;
+        let filteredArray=[];
+        const list= this.state.employees.map((item, index)=>{
+            for(let employeeProperty in item){
+                if(employeeProperty==='name'){
+                    if(item[employeeProperty].includes(input) && typeof(item[employeeProperty]!=='integer') ){
+                        console.log('we found something that contains this value',item[employeeProperty]);
+                        filteredArray.push(item);
+                        console.log('this is the array with object we want to return ', filteredArray);
+                    }
+                }
+                else if(employeeProperty==='id'){
+                    console.log('this is the value of the property', item[employeeProperty]);
+                    if(item[employeeProperty]===parseInt(input)){
+                        console.log('we found something that contains this value',item[employeeProperty]);
+                        filteredArray.push(item);
+                        console.log('this is the array with object we want to return ', filteredArray);
+                    }
+                }
+            }
+        })
+        if(!filteredArray){
+            console.log('we are returning nothing');
+        }else{
+            const filteredList= filteredArray.map((item, index)=>{
+                console.log('this is the item in filtered LIst', item);
+                return (
+                    <tr key={index}>
+                        <td>{item.name}</td>
+                        <td>{item.phoneNumber}</td>
+                        <td>{item.supervisor}</td>
+                        <td>
+                            <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
+                            | <a className="deleteLink" onClick={()=>this.deleteEmployee(item['id'])}>Delete</a> 
+                        </td>
+                    </tr>
+                )
+            }); 
+            return filteredList;      
+        }
+    }
     render(){
-        const {name,phoneNumber,supervisor}= this.state.form;
+        const {input}= this.state.form;
         const employeeList= this.state.employees.map((item, index)=>{
             return (
                 <tr key={index}>
@@ -63,7 +105,6 @@ class Home extends Component{
                         <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
                         | <a className="deleteLink" onClick={()=>this.deleteEmployee(item['id'])}>Delete</a> 
                     </td>
-                    
                 </tr>
             )
         })
@@ -83,12 +124,14 @@ class Home extends Component{
                 <div className="row">
                     <div className="col-lg">
                         <h2 className="text-center">All Employees</h2>
-                            <form action="">
+                            <form onSubmit={this.handleSearchInput}>
                                 <div className="form-group">
                                     <div className="row  align-items-end">
                                         <div className="col-4">
                                             <label htmlFor="name" >Search</label>
-                                            <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" name="name" value={name} onChange= {((e)=>this.handleInput(e))}/>
+                                            <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" 
+                                            name="input" value={input} 
+                                            onChange= {((e)=>this.handleInput(e))}/>
                                         </div>
                                         <div className="col-2">
                                             <button className="btn btn-primary">Search</button>
@@ -105,7 +148,7 @@ class Home extends Component{
                                     <th>Operations</th>
                                 </tr>
                             </thead>
-                            <tbody>{employeeList}</tbody>
+                            <tbody>{input===''? employeeList: this.filterList()}</tbody>
                         </table>
                     </div>
                 </div>
