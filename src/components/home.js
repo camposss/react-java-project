@@ -31,61 +31,51 @@ class Home extends Component{
     //     })
     // }
     async getEmployees(){
-        console.log('we made it here');
         const response = await axios({
             method:'get',
-            url:'http://localhost:8080/api/employees/home',
+            url:'http://localhost:8080/api/employees/',
             responseType:'stream'
           });
-        console.log('this is the employee data ', response.data);
         this.setState({
             employees:response.data
         })
     }
     async addEmployee(event){
         event.preventDefault();
-        console.log(this.state.form);
         const {name,phoneNumber,supervisor}= this.state.form;
         const response= await axios({
             method:'post',
-            url:'http://localhost:8080/api/employees/home',
+            url:'http://localhost:8080/api/employees',
             data:{
                 "name": name,
                 "phoneNumber": phoneNumber,
                 "supervisor": supervisor
             }
           })
-        console.log('Newly added employee', response);
         this.getEmployees();
     }
     async deleteEmployee(employeeId){
         // const employeeId= index;
         // alert('Are you sure you want to delete this?');
-        console.log('this is the id of employee you clicked',employeeId );
         const updatedUrl= 'http://localhost:8080/api/employees/'+ employeeId;
         const response = await axios({
             method:'delete',
             url: updatedUrl,
             responseType:'stream'
           });
-        console.log('this is the employee data after deleting ', response);
         this.getEmployees();
     }
     handleInput(e){
         const {value, name}= e.target;
-        const form= this.state;
+        const {form}= this.state;
         form[name]= value;
-        console.log(form);
         this.setState({
             form: {...form}
         });
     }
     render(){
         const {name,phoneNumber,supervisor}= this.state.form;
-        console.log('these are the employees in rendered',this.state.employees);
-
         const employeeList= this.state.employees.map((item, index)=>{
-            console.log('this is the item', item);
             return (
                 <tr key={index}>
                     <td>{item.name}</td>
@@ -111,6 +101,7 @@ class Home extends Component{
                 </div>
                 <div className="row">
                     <div className= "col-lg">
+                        <h2 className="text-center">Add New Employee?</h2>
                         <form onSubmit={this.addEmployee} >
                             <div className="form-group">
                                 <label htmlFor="name" >Employee Name</label>
