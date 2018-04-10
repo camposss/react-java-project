@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
-
+import * as regex from '../helpers/regex';
 
 class AddForm extends Component{
     constructor(props){
@@ -28,6 +28,8 @@ class AddForm extends Component{
     async addEmployee(event){
         event.preventDefault();
         const {name,phoneNumber,supervisor}= this.state.form;
+        // const validateName= regex.validateName(name);
+        // console.log(validateName);
         const response= await axios({
             method:'post',
             url:'http://localhost:8080/api/employees',
