@@ -16,41 +16,31 @@ class Home extends Component{
             form:{
                 input: ''
             },
-            showModal: false
+            showModal: false,
+            resultsFound:true
         }
         this.handleSearchInput=this.handleSearchInput.bind(this);
     }
     componentWillMount(){
         this.props.fetchEmployeeData();
     }
-    // async deleteEmployee(employeeId){
-    //     console.log('trying to delete employee with this Id', employeeId);
-    //     const deleteOne= await this.props.deleteEmployee(employeeId);
-    //     this.props.fetchEmployeeData();
-    //     this.setState({
-    //         showModal:false
-    //     })
-    // }
     handleInput(e){
         const {value, name}= e.target;
         const {form}= this.state;
         form[name]= value;
         this.setState({
-            form: {...form}
+            form: {...form},
+            resultsFound:true
         });
     }
     handleSearchInput(e){
         e.preventDefault();
         console.log('this is the current value of input ', this.state.form);
+        this.setState({
+            resultsFound:false
+        })
         // this.resetSearchInput();
     }
-    // resetSearchInput(){
-    //     this.setState({
-    //         form:{
-    //             input: ''
-    //         },
-    //     })
-    // }
     filterList(){
         const {input}= this.state.form;
         let filteredArray=[];
@@ -68,9 +58,11 @@ class Home extends Component{
                 }
             }
         })
-        if(!filteredArray){
+        if(!filteredArray.length){
             console.log('we are returning nothing');
-            return;
+            // return(
+            //     <h2>No Results. Please Try Again.</h2>
+            // );
         }else{
             const filteredList= filteredArray.map((item, index)=>{
                 return (
@@ -79,8 +71,7 @@ class Home extends Component{
                         <td>{item.phoneNumber}</td>
                         <td>{item.supervisor}</td>
                         <td>
-                            <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
-                            | <a className="deleteLink" onClick={()=>this.showDeleteModal(item['id'])} >Delete</a> 
+                            <Link to ={"/edit-employee/"+ item['id']}> Update </Link>|<a className="deleteLink" onClick={()=>this.showDeleteModal(item['id'])}>Delete</a> 
                         </td>
                     </tr>
                 )
@@ -123,14 +114,14 @@ class Home extends Component{
     }
     render(){
         const {input}= this.state.form;
-        const {showModal,employeeId} =this.state;
+        const {showModal, employeeId, resultsFound} =this.state;
         return(
             <div className="container">
                 <div className="row">
                     <div className="col-lg">
                         <div className="jumbotron text-center">
                             <h1>Welcome to Java Bank!</h1> 
-                            <p>We hope you like our CRM interface :)</p> 
+                            <p>You can bank on use to store your data! :)</p> 
                         </div>
                     </div>
                 </div>
@@ -143,9 +134,9 @@ class Home extends Component{
                         <h2 className="text-center">All Employees</h2>
                             <form onSubmit={this.handleSearchInput}>
                                 <div className="form-group">
-                                    <div className="row  align-items-end">
+                                    <div className="row align-items-end">
                                         <div className="col-4">
-                                            <label htmlFor="name" >Search</label>
+                                            <label htmlFor="name">Search Filter</label>
                                             <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" 
                                             name="input" value={input} 
                                             onChange= {((e)=>this.handleInput(e))}/>
@@ -156,7 +147,7 @@ class Home extends Component{
                                     </div>
                                 </div>
                             </form>
-                        <table className="table pull-left">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th>Employee Name</th>
@@ -165,8 +156,11 @@ class Home extends Component{
                                     <th>Operations</th>
                                 </tr>
                             </thead>
-                            <tbody>{input===''? this.renderEmployees(): this.filterList()}</tbody>
+                            <tbody>
+                                {input===''? this.renderEmployees(): this.filterList()}
+                            </tbody>
                         </table>
+                        {resultsFound? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
                     </div>
                 </div>
             </div>

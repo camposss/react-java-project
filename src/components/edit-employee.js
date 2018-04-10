@@ -29,7 +29,7 @@ class EditEmployee extends Component{
     }
     render(){
         return(
-            <div className="container">
+            <div className="container edit-employee-container">
                 <div className="text-center">
                     <h2 className="page-header">Edit your employee</h2>
                 </div>

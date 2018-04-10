@@ -2,9 +2,39 @@
     font-family: blocky;
     src: url(../fonts/blocky.ttf);
 }
-
 body {
     margin: auto;
+    background-image: url("../images/cliff_background.jpg");
+    background-size: cover;
+    color: white;
+}
+
+
+/* FOR LOGIN PAGE */
+
+.login-container{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+}
+.login-jumbo{
+    transform: translateY(50%);
+}
+
+/* FOR HOME PAGE */
+
+.jumbotron{
+    background-color: #36597d;
+}
+h2, label{
+    color: black;
+}
+.table th{
+    color: cadetblue;
+}
+.table td, .table th {
+    border-top: 1px solid #000000
 }
 
 .deleteLink{
@@ -20,9 +50,28 @@ body {
 .staticDeleteLink{
     color:red!important;
 }
-.login-jumbo{
-    transform: translateY(50%);
+.noResultsHeader{
+    color: red;
 }
-.confirmDeleteHeader{
-    margin-bottom: 5%;
+/* .loader {
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid #3498db; 
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} */
+
+/* EDIT EMPLOYEE PAGE */
+
+.edit-employee-container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
