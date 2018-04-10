@@ -8,7 +8,8 @@ import { reducer as formReducer } from 'redux-form';
 
 
 const rootReducer =combineReducers({
-    fetchEmployee: FetchEmployeeReducer,
+    fetchEmployees: FetchEmployeeReducer,
+    fetchSingleEmployee: FetchEmployeeReducer,
     addStudent: AddEmployeeReducer,
     deleteStudent: DeleteEmployeeReducer,
     updateStudent: UpdateEmployeeReducer,

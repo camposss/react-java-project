@@ -19,39 +19,42 @@ export function fetchEmployeeData() {
         payload: request
     };
 }
+const fetch_single_employee_url = "http://localhost:8080/api/employees/";
+export function fetchSingleEmployee(employeeId) {
+    const request = axios.get(fetch_single_employee_url+employeeId);
+    return {
+        type: types.GET_SINGLE_EMPLOYEE,
+        payload: request
+    };
+}
 
 const add_employee_url = "http://localhost:8080/api/employees";
 export function addEmployee(values) {
     const request = axios.post(add_employee_url, {
-        name: values.name,
-        course: values.course,
-        grade: values.grade
+        "name": values.name,
+        "phoneNumber": values.phoneNumber,
+        "supervisor": values.supervisor
 
     });
     return {
-        type: types.ADD_EMPLOYEE,
+        type: types.ADD_EMPLOYEES,
         payload: request
     };
 }
-const delete_employee_url = "http://localhost:8080/api/employees";
-export function deleteEmployee(studentId) {
-    const request = axios.post(delete_employee_url, {
-        studentId: studentId
-
-    });
+const delete_employee_url = "http://localhost:8080/api/employees/";
+export function deleteEmployee(employeeId) {
+    const request = axios.delete(delete_employee_url+employeeId);
     return {
         type: types.DELETE_EMPLOYEE,
         payload: request
     };
 }
-const update_employee_url = "http://localhost:8080/api/employees";
-export function updateEmployee(form,studentId) {
-    const request = axios.post(update_employee_url, {
+const update_employee_url = "http://localhost:8080/api/employees/";
+export function updateEmployee(form,employeeId) {
+    const request = axios.put(update_employee_url+employeeId, {
         name: form.name,
-        course: form.course,
-        grade: form.grade,
-        studentId: studentId
-
+        phoneNumber: form.phoneNumber,
+        supervisor: form.supervisor,
     });
     return {
         type: types.UPDATE_EMPOYEE,

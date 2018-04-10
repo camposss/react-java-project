@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {fetchSingleEmployee, updateEmployee, fetchEmployeeData} from '../actions';
+import {connect} from 'react-redux';
 
 class EditEmployee extends Component{
     constructor(props){
@@ -15,14 +17,8 @@ class EditEmployee extends Component{
     }
     async componentWillMount(){
         const employeeId= this.props.match.params.id;
-        const updateUrl= 'http://localhost:8080/api/employees/'+ employeeId;
-        const response = await axios({
-            method:'get',
-            url: updateUrl,
-          });
-        console.log('this is the employee data ', response.data);
-        const data= response.data;
-        const {name, phoneNumber, supervisor}= response.data;
+        const response = await this.props.fetchSingleEmployee(employeeId);
+        const {name, phoneNumber, supervisor}= this.props.employee;
         this.setState({
             form:{
                 name: name,
@@ -34,32 +30,17 @@ class EditEmployee extends Component{
     handleInput(e){
         const {value, name}= e.target;
         const {form}= this.state;
-        form[name]= value;
-        console.log(form);
-        
+        form[name]= value;        
         this.setState({
             form:{...form}
         });
     }
     async handleSubmit(event){
         event.preventDefault();
-        console.log(event);
-        const {name,phoneNumber,supervisor}= this.state.form;
-        console.log('these are the inputs according to state after submit ', name, phoneNumber, supervisor);
-
+        const {form}= this.state;
         const employeeId= this.props.match.params.id;
-        console.log(employeeId);
-        const updateUrl= 'http://localhost:8080/api/employees/'+ employeeId;
-        const response = await axios({
-            method:'put',
-            url: updateUrl,
-            data:{
-                name: name,
-                phoneNumber:phoneNumber,
-                supervisor:supervisor
-            }
-          });
-        console.log('this is the employee data ', response.data);
+        const updateEmployee =await this.props.updateEmployee(form, employeeId)
+        const updateList= await this.props.fetchEmployeeData();
         this.props.history.push('/home');
     }
     render(){
@@ -93,4 +74,9 @@ class EditEmployee extends Component{
         );
     }
 }
-export default EditEmployee;
+function mapStateToProps(state){
+    return{
+        employee: state.fetchSingleEmployee
+    }
+}
+export default connect(mapStateToProps, {fetchEmployeeData, fetchSingleEmployee, updateEmployee}) (EditEmployee);
