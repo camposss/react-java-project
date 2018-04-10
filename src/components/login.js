@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
+import {fetchUserData} from "../actions";
+import {connect} from "react-redux";
 
 class Login extends Component{
     constructor(props){
@@ -10,20 +11,12 @@ class Login extends Component{
                 username:'',
                 password: ''
             },
-            getUsers: this.getUsers(),
-            users: []
         }
         this.handleSubmit=this.handleSubmit.bind(this);
     }
-    async getUsers(){
-        const response = await axios({
-            method:'get',
-            url:'http://localhost:8080/api/users',
-          });
-          console.log('this is the response from api', response);
-        this.setState({
-            users:response.data[0]
-        })
+    async componentWillMount(){
+        const response = await this.props.fetchUserData();
+        console.log('after doing axios call with redux ', this.props.users);
     }
     handleInput(e){
         const {value, name}= e.target;
@@ -36,8 +29,8 @@ class Login extends Component{
     handleSubmit(e){
         e.preventDefault();
         const {username, password}= this.state.form;
-        const users= this.state.users;
-        console.log('these are the values of the inputs ', this.state);
+        const users= this.props.users[0];
+        // console.log(users['username']);
         if(username===users['username'] && password===users['password']){
             console.log('it worked!');
             this.props.history.push('/home');
@@ -92,4 +85,9 @@ class Login extends Component{
         )
     }
 }
-export default Login;
+function mapStateToProps(state){
+    return{
+        users: state.fetchUser
+    }
+}
+export default connect(mapStateToProps, {fetchUserData}) (Login);
