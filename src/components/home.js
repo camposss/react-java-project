@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 import AddForm from './add-employee-form';
 import {fetchEmployeeData,deleteEmployee} from '../actions';
 import {connect} from 'react-redux';
+import DeleteModal from './delete-modal';
+import '../assets/css/modal.css';
 
 class Home extends Component{
     constructor(props){
@@ -14,16 +16,21 @@ class Home extends Component{
             form:{
                 input: ''
             },
+            showModal: false
         }
         this.handleSearchInput=this.handleSearchInput.bind(this);
     }
     componentWillMount(){
         this.props.fetchEmployeeData();
     }
-    async deleteEmployee(employeeId){
-        const deleteOne= await this.props.deleteEmployee(employeeId);
-        this.props.fetchEmployeeData();
-    }
+    // async deleteEmployee(employeeId){
+    //     console.log('trying to delete employee with this Id', employeeId);
+    //     const deleteOne= await this.props.deleteEmployee(employeeId);
+    //     this.props.fetchEmployeeData();
+    //     this.setState({
+    //         showModal:false
+    //     })
+    // }
     handleInput(e){
         const {value, name}= e.target;
         const {form}= this.state;
@@ -73,7 +80,7 @@ class Home extends Component{
                         <td>{item.supervisor}</td>
                         <td>
                             <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
-                            | <a className="deleteLink" onClick={()=>this.deleteEmployee(item['id'])}>Delete</a> 
+                            | <a className="deleteLink" onClick={()=>this.showDeleteModal(item['id'])} >Delete</a> 
                         </td>
                     </tr>
                 )
@@ -93,7 +100,7 @@ class Home extends Component{
                         <td>{item.supervisor}</td>
                         <td>
                             <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
-                            | <a className="deleteLink" onClick={()=>this.deleteEmployee(item['id'])}>Delete</a> 
+                            | <a className="deleteLink" onClick={()=>this.showDeleteModal(item['id'])} >Delete</a> 
                         </td>
                     </tr>
                 )
@@ -101,8 +108,22 @@ class Home extends Component{
             return employeeList;
         }
     }
+    showDeleteModal(employeeId){
+        console.log('we got the id', employeeId);
+        this.setState({
+            showModal:true,
+            employeeId:employeeId
+        })
+    }
+    closeModal(){
+        this.setState({
+            showModal:false,
+            employeeId:''
+        })
+    }
     render(){
         const {input}= this.state.form;
+        const {showModal,employeeId} =this.state;
         return(
             <div className="container">
                 <div className="row">
@@ -116,6 +137,7 @@ class Home extends Component{
                 <div className="row">
                     <AddForm/>
                 </div>
+                {!showModal? '': <DeleteModal closeModal={()=>this.closeModal()} employeeId= {employeeId}/>}
                 <div className="row">
                     <div className="col-lg">
                         <h2 className="text-center">All Employees</h2>
