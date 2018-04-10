@@ -7,7 +7,7 @@ export function validateName (name){
     if(!testName || checkForNumber) return name;
 }
 export function validateNumber(number){
-    const numberRegex= /[2-9]{2}\d{8}/;
+    const numberRegex= /^[0][1-9]\d{9}$|^[1-9]\d{9}$/;
     const testNumber = numberRegex.test(number);
     if(!testNumber) return number;
 }

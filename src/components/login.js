@@ -10,10 +10,7 @@ class Login extends Component{
     constructor(props){
         super(props);
         this.state={
-            form:{
-                username:'',
-                password: ''
-            },
+            incorrectCredentials: ''
         }
     }
     async componentWillMount(){
@@ -45,11 +42,15 @@ class Login extends Component{
 
         }else{
             console.log('it didnt work');
+            const errorMessage= "You have entered an incorrect username or password. Please try again."
             this.props.destroy();
+            this.setState({
+                incorrectCredentials: errorMessage
+            })
         }        
     }
     render(){
-        const {username, password}= this.state.form;
+        const {incorrectCredentials}= this.state;
         return(
             <div className="container">
                 <div className="jumbotron login-jumbo">
@@ -75,6 +76,9 @@ class Login extends Component{
                                     <button className="btn btn-success">Login</button>
                                 </div>
                             </div>
+                            <div className="row justify-content-center">
+                                <p className="text-danger ">{!incorrectCredentials? '': incorrectCredentials}</p>
+                            </div>
                         </form>
                     </div>
             </div>
@@ -98,13 +102,13 @@ function validate(values) {
         error.username= "Please enter your username";
     }
     if(error.invalidName){
-        error.invalidName= "Please enter a valid username";
+        error.username= "Please enter a valid username";
     }
     if(!values.password){
         error.password = "Please enter your password";
     }
     if(error.invalidPassword){
-        error.invalidSupervisor= "Please enter a valid name";
+        error.password= "Please enter a valid password";
     }
     // if(values.username!==users['username'] && values.password!==users['password']){
     //     error.

@@ -8,20 +8,10 @@ import { Field, reduxForm } from "redux-form";
 class EditEmployee extends Component{
     constructor(props){
         super(props);
-        this.handleSubmit=this.handleSubmit.bind(this);
     }
-    async componentWillMount(){
+    componentWillMount(){
         const employeeId= this.props.match.params.id;
-        const response = await this.props.fetchSingleEmployee(employeeId);
-        const {name, phoneNumber, supervisor}= this.props.employee;
-    }
-    async handleSubmit(event){
-        event.preventDefault();
-        const {form}= this.state;
-        const employeeId= this.props.match.params.id;
-        const updateEmployee =await this.props.updateEmployee(form, employeeId)
-        const updateList= await this.props.fetchEmployeeData();
-        this.props.history.push('/home');
+        this.props.fetchSingleEmployee(employeeId);
     }
     renderInput({ placeholder, label, input, type, value, meta: { touched, error, active, visited } }) {
         return (
@@ -83,23 +73,22 @@ function validate(values) {
         error.name= "Please enter an employee's name";
     }
     if(error.invalidName){
-        error.invalidName= "Please enter a valid name";
+        error.name= "Please enter a valid name";
     }
     if(!values.phoneNumber){
         error.phoneNumber = "Please enter employee's phone number";
     }
     if(error.invalidPhone){
-        error.invalidPhone= "Please enter an appropriate 10 digit number"
+        error.phoneNumber= "Please enter an appropriate 10 digit number"
     }
     if(!values.supervisor){
         error.supervisor = "Please enter employee's supervisor";
     }
     if(error.invalidSupervisor){
-        error.invalidSupervisor= "Please enter a valid name";
+        error.supervisor= "Please enter a valid name";
     }
     return error;
 }
-
 
 function mapStateToProps(state){
     return {

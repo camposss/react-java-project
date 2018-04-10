@@ -35,7 +35,15 @@ class Home extends Component{
     handleSearchInput(e){
         e.preventDefault();
         console.log('this is the current value of input ', this.state.form);
+        // this.resetSearchInput();
     }
+    // resetSearchInput(){
+    //     this.setState({
+    //         form:{
+    //             input: ''
+    //         },
+    //     })
+    // }
     filterList(){
         const {input}= this.state.form;
         let filteredArray=[];

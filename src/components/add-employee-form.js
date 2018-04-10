@@ -8,17 +8,7 @@ import { Field, reduxForm } from "redux-form";
 class AddForm extends Component{
     constructor(props){
         super(props);
-        this.state= {
-            form:{
-                name: "Joey Cardenas",
-                phoneNumber: "8886756574",
-                supervisor: "Jorge Manuela"
-            }
-        }
         this.addEmployee=this.addEmployee.bind(this);
-    }
-    componentWillMount(){
-        console.log('these are the props in add form:', this.props);
     }
     renderInput({ placeholder, label, input, type, meta: { touched, error, active, visited } }) {
         return (
@@ -27,7 +17,6 @@ class AddForm extends Component{
                 <input placeholder= {placeholder} className="form-control" type={type} {...input} />
                 <p className="inputErrorMessage text-danger text-center">{ input.name==='' ? touched && visited && error : touched && !active && error }</p>
             </span>
-
         );
     }
     async addEmployee(values){
@@ -69,19 +58,19 @@ function validate(values) {
         error.name= "Please enter an employee's name";
     }
     if(error.invalidName){
-        error.invalidName= "Please enter a valid name";
+        error.name= "Please enter a valid name";
     }
     if(!values.phoneNumber){
         error.phoneNumber = "Please enter employee's phone number";
     }
     if(error.invalidPhone){
-        error.invalidPhone= "Please enter an appropriate 10 digit number"
+        error.phoneNumber= "Please enter an appropriate 10 digit number"
     }
     if(!values.supervisor){
         error.supervisor = "Please enter employee's supervisor";
     }
     if(error.invalidSupervisor){
-        error.invalidSupervisor= "Please enter a valid name";
+        error.supervisor= "Please enter a valid name";
     }
     return error;
 }
