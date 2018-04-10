@@ -4,6 +4,8 @@ import logo from '../assets/images/logo.svg';
 import axios from "axios";
 import {Link} from 'react-router-dom';
 import AddForm from './add-employee-form';
+import {fetchEmployeeData,deleteEmployee} from '../actions';
+import {connect} from 'react-redux';
 
 class Home extends Component{
     constructor(props){
@@ -12,30 +14,15 @@ class Home extends Component{
             form:{
                 input: ''
             },
-            getEmployees: this.getEmployees(),
-            employees: []
         }
         this.handleSearchInput=this.handleSearchInput.bind(this);
     }
-    async getEmployees(){
-        const response = await axios({
-            method:'get',
-            url:'http://localhost:8080/api/employees/',
-          });
-        this.setState({
-            employees:response.data
-        })
+    componentWillMount(){
+        this.props.fetchEmployeeData();
     }
-
     async deleteEmployee(employeeId){
-        // const employeeId= index;
-        // alert('Are you sure you want to delete this?');
-        const updatedUrl= 'http://localhost:8080/api/employees/'+ employeeId;
-        const response = await axios({
-            method:'delete',
-            url: updatedUrl,
-          });
-        this.getEmployees();
+        const deleteOne= await this.props.deleteEmployee(employeeId);
+        this.props.fetchEmployeeData();
     }
     handleInput(e){
         const {value, name}= e.target;
@@ -52,7 +39,7 @@ class Home extends Component{
     filterList(){
         const {input}= this.state.form;
         let filteredArray=[];
-        const list= this.state.employees.map((item, index)=>{
+        const list= this.props.employees.map((item, index)=>{
             for(let employeeProperty in item){
                 if(employeeProperty==='name'){
                     if(item[employeeProperty].includes(input) && typeof(item[employeeProperty]!=='integer') ){
@@ -68,6 +55,7 @@ class Home extends Component{
         })
         if(!filteredArray){
             console.log('we are returning nothing');
+            return;
         }else{
             const filteredList= filteredArray.map((item, index)=>{
                 return (
@@ -85,21 +73,28 @@ class Home extends Component{
             return filteredList;      
         }
     }
+    renderEmployees(){
+        if(!this.props.employees.length){
+            return;
+        }else{
+            const employeeList= this.props.employees.map((item, index)=>{
+                return (
+                    <tr key={index}>
+                        <td>{item.name}</td>
+                        <td>{item.phoneNumber}</td>
+                        <td>{item.supervisor}</td>
+                        <td>
+                            <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
+                            | <a className="deleteLink" onClick={()=>this.deleteEmployee(item['id'])}>Delete</a> 
+                        </td>
+                    </tr>
+                )
+            })
+            return employeeList;
+        }
+    }
     render(){
         const {input}= this.state.form;
-        const employeeList= this.state.employees.map((item, index)=>{
-            return (
-                <tr key={index}>
-                    <td>{item.name}</td>
-                    <td>{item.phoneNumber}</td>
-                    <td>{item.supervisor}</td>
-                    <td>
-                        <Link to ={"/edit-employee/"+ item['id']}>Update</Link> 
-                        | <a className="deleteLink" onClick={()=>this.deleteEmployee(item['id'])}>Delete</a> 
-                    </td>
-                </tr>
-            )
-        })
         return(
             <div className="container">
                 <div className="row">
@@ -111,7 +106,7 @@ class Home extends Component{
                     </div>
                 </div>
                 <div className="row">
-                    <AddForm employee= {()=>this.getEmployees()}/>
+                    <AddForm/>
                 </div>
                 <div className="row">
                     <div className="col-lg">
@@ -140,7 +135,7 @@ class Home extends Component{
                                     <th>Operations</th>
                                 </tr>
                             </thead>
-                            <tbody>{input===''? employeeList: this.filterList()}</tbody>
+                            <tbody>{input===''? this.renderEmployees(): this.filterList()}</tbody>
                         </table>
                     </div>
                 </div>
@@ -149,4 +144,9 @@ class Home extends Component{
     }
 }
 
-export default Home;
+function mapStateToProps(state){
+    return{
+        employees: state.fetchEmployees
+    }
+}
+export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee}) (Home);

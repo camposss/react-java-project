@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import axios from "axios";
-
+import * as regex from '../helpers/regex';
+import {fetchEmployeeData, addEmployee} from '../actions';
+import {connect} from 'react-redux';
 
 class AddForm extends Component{
     constructor(props){
@@ -27,17 +29,11 @@ class AddForm extends Component{
     }
     async addEmployee(event){
         event.preventDefault();
-        const {name,phoneNumber,supervisor}= this.state.form;
-        const response= await axios({
-            method:'post',
-            url:'http://localhost:8080/api/employees',
-            data:{
-                "name": name,
-                "phoneNumber": phoneNumber,
-                "supervisor": supervisor
-            }
-          })
-        this.props.employee();
+        const {form}= this.state;
+        // const validateName= regex.validateName(name);
+        // console.log(validateName);
+        const addEmployee= await this.props.addEmployee(form);
+        this.props.fetchEmployeeData();
     }
     render(){
         const {name, phoneNumber, supervisor}= this.state.form;
@@ -63,4 +59,4 @@ class AddForm extends Component{
         )
     }
 }
-export default AddForm;
+export default connect(null, {fetchEmployeeData, addEmployee}) (AddForm);
