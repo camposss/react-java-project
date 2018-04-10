@@ -17,7 +17,7 @@ class Login extends Component{
         const response = await this.props.fetchUserData();
         console.log('after doing axios call with redux ', this.props.users);
     }
-    renderInput({ placeholder, label, input, type, meta: { touched, error, active, visited } }) {
+    renderInput({ placeholder, input, type, meta: { touched, error, active, visited } }) {
         return (
             <span>
                 {/*<label>{label}</label>*/}
@@ -52,7 +52,7 @@ class Login extends Component{
     render(){
         const {incorrectCredentials}= this.state;
         return(
-            <div className="container">
+            <div className="container login-container">
                 <div className="jumbotron login-jumbo">
                     <div className="text-center">
                         <h1>Welcome to Java Bank!</h1> 

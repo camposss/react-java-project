@@ -48,39 +48,39 @@ class DeleteModal extends Component{
         const {employeeId}= this.props;
         return(
             <span>
-              <div className='confirm-modal '>
-                  <div className="content-modal">
-                      <div className="card">
-                          <div className="card-header text-center">
-                            <h4>Please confirm the following action</h4>
-                          </div>
-                            <div>
-                                <div className='card-block'>
-                                <h5 className="text-center confirmDeleteHeader">Are you sure want to delete the following entry?</h5>
-                                <table className="table pull-left">
-                                <thead>
-                                    <tr>
-                                        <th>Employee Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Supervisor</th>
-                                        <th>Operations</th>
-                                    </tr>
-                                </thead>
-                                <tbody>{this.renderSingleEmployee()}</tbody>
-                            </table>
-                                </div> 
+              <div className="confirm-modal">
+                    <div className="container content-modal">
+                        <div className="card">
+                            <div className="card-header text-center">
+                                <h4>Please confirm the following action</h4>
                             </div>
-                          <div className="card-footer row">
-                            <div className="col-6 text-center">
-                                <button onClick= {this.props.closeModal} className='btn btn-outline-danger'>Cancel</button>
-                            </div>  
-                            <div className="col-6 text-center">
-                                <button onClick= {()=>this.deleteEmployee(employeeId)} className='btn btn-outline-success'>Confirm</button>
+                                <div>
+                                    <div className='card-block'>
+                                    <h5 className="text-center confirmDeleteHeader">Are you sure want to delete the following entry?</h5>
+                                    <table className="table pull-left">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee Name</th>
+                                            <th>Phone Number</th>
+                                            <th>Supervisor</th>
+                                            <th>Operations</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>{this.renderSingleEmployee()}</tbody>
+                                </table>
+                                    </div> 
+                                </div>
+                            <div className="card-footer row">
+                                <div className="col-6 text-center">
+                                    <button onClick= {this.props.closeModal} className='btn btn-outline-danger'>Cancel</button>
+                                </div>  
+                                <div className="col-6 text-center">
+                                    <button onClick= {()=>this.deleteEmployee(employeeId)} className='btn btn-outline-success'>Confirm</button>
+                                </div>
                             </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                        </div>
+                    </div>
+                </div>        
             </span>
         )
     }
