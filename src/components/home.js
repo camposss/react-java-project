@@ -47,7 +47,10 @@ class Home extends Component{
         const list= this.props.employees.map((item, index)=>{
             for(let employeeProperty in item){
                 if(employeeProperty==='name'){
-                    if(item[employeeProperty].includes(input) && typeof(item[employeeProperty]!=='integer') ){
+                    const lowerCaseName= item[employeeProperty].toLowerCase();
+                    const name= item[employeeProperty];
+                    console.log(item[employeeProperty].toLowerCase());
+                    if(lowerCaseName.includes(input) || name.includes(input) && typeof(item[employeeProperty]!=='number') ){
                         filteredArray.push(item);
                     }
                 }
@@ -83,6 +86,7 @@ class Home extends Component{
         if(!this.props.employees.length){
             return;
         }else{
+            console.log(this.props.employees.sort());
             const employeeList= this.props.employees.map((item, index)=>{
                 return (
                     <tr key={index}>
