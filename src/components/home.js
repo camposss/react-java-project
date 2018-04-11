@@ -47,7 +47,10 @@ class Home extends Component{
         const list= this.props.employees.map((item, index)=>{
             for(let employeeProperty in item){
                 if(employeeProperty==='name'){
-                    if(item[employeeProperty].includes(input) && typeof(item[employeeProperty]!=='integer') ){
+                    const lowerCaseName= item[employeeProperty].toLowerCase();
+                    const name= item[employeeProperty];
+                    // console.log(item[employeeProperty].toLowerCase());
+                    if(lowerCaseName.includes(input.toLowerCase()) || name.includes(input) && typeof(item[employeeProperty]!=='number') ){
                         filteredArray.push(item);
                     }
                 }
@@ -64,9 +67,11 @@ class Home extends Component{
             //     <h2>No Results. Please Try Again.</h2>
             // );
         }else{
+            console.log('this is the filtered array right before mapping ', filteredArray);
             const filteredList= filteredArray.map((item, index)=>{
                 return (
                     <tr key={index}>
+                        <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
                         <td>{item.supervisor}</td>
@@ -83,9 +88,14 @@ class Home extends Component{
         if(!this.props.employees.length){
             return;
         }else{
+            console.log(this.props.employees.sort());
             const employeeList= this.props.employees.map((item, index)=>{
+                if(index>=10){
+                    return;
+                }
                 return (
                     <tr key={index}>
+                        <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
                         <td>{item.supervisor}</td>
@@ -129,9 +139,8 @@ class Home extends Component{
                     <AddForm/>
                 </div>
                 {!showModal? '': <DeleteModal closeModal={()=>this.closeModal()} employeeId= {employeeId}/>}
-                <div className="row">
+                <div className="row table-container">
                     <div className="col-lg">
-                        <h2 className="text-center">All Employees</h2>
                             <form onSubmit={this.handleSearchInput}>
                                 <div className="form-group">
                                     <div className="row align-items-end">
@@ -150,6 +159,7 @@ class Home extends Component{
                         <table className="table">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Employee Name</th>
                                     <th>Phone Number</th>
                                     <th>Supervisor</th>
