@@ -55,7 +55,19 @@ h2, label{
 }
 .table-container{
     margin-top: 2.5%;
+    /* max-height: 650px;
+    overflow-y: scroll; */
 }
+.inside-table-container{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+/* .table-container::-webkit-scrollbar * {
+    background:transparent;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background:#999 !important;
+} */
 .left-arrow:hover, .right-arrow:hover{
     cursor: pointer;
     text-decoration: underline;
@@ -67,6 +79,8 @@ h2, label{
 .hide-arrow:hover{
     cursor:not-allowed
 }
+
+
 /* .col-5.offset-1.search-column, .right-arrow{
     padding-left:0px!important;
     padding-right: 30px;

@@ -208,6 +208,7 @@ class Home extends Component{
                                     </div>
                                 </div>
                             </form>
+                        <div className="inside-table-container">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -222,6 +223,7 @@ class Home extends Component{
                                 {input===''? this.renderEmployees(): this.filterList()}
                             </tbody>
                         </table>
+                        </div>
                         {resultsFound? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
                     </div>
                 </div>
