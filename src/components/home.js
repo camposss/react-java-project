@@ -90,9 +90,9 @@ class Home extends Component{
         }else{
             console.log(this.props.employees.sort());
             const employeeList= this.props.employees.map((item, index)=>{
-                if(index>=10){
-                    return;
-                }
+                // if(index>=10){
+                //     return;
+                // }
                 return (
                     <tr key={index}>
                         <td>{item.id}</td>
