@@ -59,7 +59,7 @@ h2, label{
     overflow-y: scroll; */
 }
 .inside-table-container{
-    max-height: 500px;
+    max-height: 600px;
     overflow-y: scroll;
 }
 /* .table-container::-webkit-scrollbar * {
