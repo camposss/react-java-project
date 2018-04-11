@@ -13,15 +13,17 @@ class DeleteModal extends Component{
         }
     }
      componentWillMount(){
-        this.props.fetchEmployeeData();
+        const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
+        this.props.fetchEmployeeData(currentPage);
     }
     renderSingleEmployee(){
         if(this.props.employees===undefined){
             return;
         }else{
             console.log('these are the props in render single empploye', this.props);
-            const singleEmployee= this.props.employees.map((item, index)=>{
+            const singleEmployee= this.props.employees.employees.map((item, index)=>{
                 if(item.id===this.props.employeeId){
+                    console.log('returning body');
                     return (
                         <tr key={index}>
                             <td>{item.name}</td>
@@ -41,7 +43,8 @@ class DeleteModal extends Component{
     async deleteEmployee(employeeId){
         console.log('trying to delete employee with this Id', employeeId);
         const deleteOne= await this.props.deleteEmployee(employeeId);
-        this.props.fetchEmployeeData();
+        const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
+        this.props.fetchEmployeeData(currentPage);
         this.props.closeModal();
     }
     render(){

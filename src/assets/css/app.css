@@ -56,6 +56,21 @@ h2, label{
 .table-container{
     margin-top: 2.5%;
 }
+.left-arrow:hover, .right-arrow:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+}
+.hide-arrow{
+    opacity: 0.5
+}
+.hide-arrow:hover{
+    cursor:not-allowed
+}
+/* .col-5.offset-1.search-column, .right-arrow{
+    padding-left:0px!important;
+    padding-right: 30px;
+} */
 /* .loader {
     border: 16px solid #f3f3f3; 
     border-top: 16px solid #3498db; 

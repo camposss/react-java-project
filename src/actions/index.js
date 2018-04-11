@@ -10,12 +10,20 @@ export function fetchUserData() {
         payload: request
     };
 }
-
-const fetch_employees_url = "http://localhost:8080/api/employees";
-export function fetchEmployeeData() {
-    const request = axios.get(fetch_employees_url);
+const fetch_all_employees = "http://localhost:8080/api/employees/";
+export function getAllEmployees() {
+    const request = axios.get(fetch_all_employees);
     return {
-        type: types.GET_EMLOYEES,
+        type: types.GET_ALL_EMPLOYEES,
+        payload: request
+    };
+}
+
+const fetch_employees_url = "http://localhost:8080/api/employees/page/";
+export function fetchEmployeeData(page=0) {
+    const request = axios.get(fetch_employees_url+page);
+    return {
+        type: types.GET_EMPLOYEES,
         payload: request
     };
 }
