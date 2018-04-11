@@ -42,6 +42,7 @@ class Home extends Component{
     handleSearchInput(e){
         e.preventDefault();
         console.log('this is the current value of input ', this.state.form);
+
         this.setState({
             resultsFound:false
         })
