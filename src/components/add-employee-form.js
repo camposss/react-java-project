@@ -35,13 +35,13 @@ class AddForm extends Component{
                     </div>
                     <div className="form-group">
                         <label htmlFor="phoneNumber" >Phone Number</label>
-                        <Field placeholder="Enter employee's phone number" name='phoneNumber' label='Phone Number' type='number' component={this.renderInput}/>
+                        <Field placeholder="(xxx) xxx-xxxx" name='phoneNumber' label='Phone Number' type='tel' component={this.renderInput}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="supervisor" >Supervisor</label>
                         <Field placeholder="Enter employee's supervisor" name='supervisor' label='Supervisor' type='text' component={this.renderInput}/>
                     </div>
-                    <button className="btn btn-success">Submit</button>
+                    <button className="btn btn-success">Add Employee</button>
                 </form>
             </div>
         )
@@ -64,10 +64,10 @@ function validate(values) {
         error.phoneNumber = "Please enter employee's phone number";
     }
     if(error.invalidPhone){
-        error.phoneNumber= "Please enter an appropriate 10 digit number"
+        error.phoneNumber= "Please enter a valid 10 digit number"
     }
     if(!values.supervisor){
-        error.supervisor = "Please enter employee's supervisor";
+        error.supervisor = "Please enter employee's supervisor's name";
     }
     if(error.invalidSupervisor){
         error.supervisor= "Please enter a valid name";
