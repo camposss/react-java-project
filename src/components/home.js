@@ -8,6 +8,9 @@ import {fetchEmployeeData,deleteEmployee} from '../actions';
 import {connect} from 'react-redux';
 import DeleteModal from './delete-modal';
 import '../assets/css/modal.css';
+import leftArrow from '../assets/images/arrow-left-4x.png';
+import rightArrow from '../assets/images/arrow-right-4x.png';
+
 
 class Home extends Component{
     constructor(props){
@@ -21,8 +24,9 @@ class Home extends Component{
         }
         this.handleSearchInput=this.handleSearchInput.bind(this);
     }
-    componentWillMount(){
-        this.props.fetchEmployeeData();
+    async componentWillMount(){
+       const response= this.props.fetchEmployeeData();
+
     }
     handleInput(e){
         const {value, name}= e.target;
@@ -44,7 +48,7 @@ class Home extends Component{
     filterList(){
         const {input}= this.state.form;
         let filteredArray=[];
-        const list= this.props.employees.map((item, index)=>{
+        const list= this.props.employees.employees.map((item, index)=>{
             for(let employeeProperty in item){
                 if(employeeProperty==='name'){
                     const lowerCaseName= item[employeeProperty].toLowerCase();
@@ -85,11 +89,10 @@ class Home extends Component{
         }
     }
     renderEmployees(){
-        if(!this.props.employees.length){
+        if(!this.props.employees.employees.length){
             return;
         }else{
-            console.log(this.props.employees.sort());
-            const employeeList= this.props.employees.map((item, index)=>{
+            const employeeList= this.props.employees.employees.map((item, index)=>{
                 // if(index>=10){
                 //     return;
                 // }
@@ -122,6 +125,46 @@ class Home extends Component{
             employeeId:''
         })
     }
+    prevPage(){
+        const pageNumber= this.props.employees.pageInfo.pageable.pageNumber;
+        const prevPage= pageNumber-1;
+        if(prevPage >= 0){
+            this.props.fetchEmployeeData(prevPage);
+        }
+    }
+    nextPage(){
+        const pageNumber= this.props.employees.pageInfo.pageable.pageNumber;
+        const maxPage= this.props.employees.pageInfo.totalPages;
+        const nextPage= pageNumber+1;
+        if(pageNumber!==maxPage-1){
+            this.props.fetchEmployeeData(nextPage);
+        }
+    }
+    renderArrow(direction){
+        if(!this.props.employees.employees.length){
+            return;
+            console.log('these are the props', this.props);
+        }else{
+            console.log('we made it to else', this.props);
+            const pageNumber= this.props.employees.pageInfo.pageable.pageNumber; 
+            const maxPage= this.props.employees.pageInfo.totalPages-1;
+            if(direction==='right'){
+                return(
+                    <div onClick= {()=>this.nextPage()}
+                        className={pageNumber!==maxPage? "col-3 right-arrow text-center": "col-3 text-center hide-arrow"}>
+                        Next Page <img src={rightArrow}/>
+                    </div>
+                )
+            }else if(direction==='left'){
+                return(
+                    <div onClick= {()=>this.prevPage()} 
+                        className={pageNumber >0? "col-3 left-arrow": "col-3 hide-arrow"}>
+                        <img src={leftArrow}/> Previous Page
+                    </div>
+                )
+            }
+        }
+    }
     render(){
         const {input}= this.state.form;
         const {showModal, employeeId, resultsFound} =this.state;
@@ -137,22 +180,30 @@ class Home extends Component{
                 </div>
                 <div className="row">
                     <AddForm/>
+                    
                 </div>
+
                 {!showModal? '': <DeleteModal closeModal={()=>this.closeModal()} employeeId= {employeeId}/>}
                 <div className="row table-container">
                     <div className="col-lg">
                             <form onSubmit={this.handleSearchInput}>
                                 <div className="form-group">
                                     <div className="row align-items-end">
-                                        <div className="col-4">
-                                            <label htmlFor="name">Search Filter</label>
-                                            <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" 
-                                            name="input" value={input} 
-                                            onChange= {((e)=>this.handleInput(e))}/>
+                                        {this.renderArrow("left")}
+                                        <div className="col-5 offset-1 justify-content-center">
+                                            <div className="row align-items-end justify-content-end">
+                                                <div className="col-9">
+                                                    <label htmlFor="name">Search Filter</label>
+                                                    <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" 
+                                                    name="input" value={input} 
+                                                    onChange= {((e)=>this.handleInput(e))}/>
+                                                </div>
+                                                <div className="col-3">
+                                                    <button className="btn btn-primary">Search</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-2">
-                                            <button className="btn btn-primary">Search</button>
-                                        </div>
+                                        {this.renderArrow("right")}
                                     </div>
                                 </div>
                             </form>
@@ -173,6 +224,7 @@ class Home extends Component{
                         {resultsFound? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
                     </div>
                 </div>
+                
             </div>
         );
     }
@@ -180,7 +232,8 @@ class Home extends Component{
 
 function mapStateToProps(state){
     return{
-        employees: state.fetchEmployees
+        employees: state.fetchEmployees,
+        pageInfo: state.fetchEmployees
     }
 }
 export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee}) (Home);

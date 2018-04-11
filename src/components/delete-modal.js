@@ -20,8 +20,9 @@ class DeleteModal extends Component{
             return;
         }else{
             console.log('these are the props in render single empploye', this.props);
-            const singleEmployee= this.props.employees.map((item, index)=>{
+            const singleEmployee= this.props.employees.employees.map((item, index)=>{
                 if(item.id===this.props.employeeId){
+                    console.log('returning body');
                     return (
                         <tr key={index}>
                             <td>{item.name}</td>

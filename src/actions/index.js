@@ -11,9 +11,9 @@ export function fetchUserData() {
     };
 }
 
-const fetch_employees_url = "http://localhost:8080/api/employees";
-export function fetchEmployeeData() {
-    const request = axios.get(fetch_employees_url);
+const fetch_employees_url = "http://localhost:8080/api/employees/page/";
+export function fetchEmployeeData(page=0) {
+    const request = axios.get(fetch_employees_url+page);
     return {
         type: types.GET_EMLOYEES,
         payload: request
