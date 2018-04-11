@@ -27,7 +27,7 @@ class AddForm extends Component{
     render(){
         return(
             <div className= "col-lg">
-                <h2 className="text-center">Add New Employee?</h2>
+                <h2 className="text-center">Manage Employees</h2>
                 <form onSubmit={this.props.handleSubmit(this.addEmployee.bind(this))} >
                     <div className="form-group">
                         <label htmlFor="name" >Employee Name</label>

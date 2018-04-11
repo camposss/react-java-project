@@ -129,9 +129,8 @@ class Home extends Component{
                     <AddForm/>
                 </div>
                 {!showModal? '': <DeleteModal closeModal={()=>this.closeModal()} employeeId= {employeeId}/>}
-                <div className="row">
+                <div className="row table-container">
                     <div className="col-lg">
-                        <h2 className="text-center">All Employees</h2>
                             <form onSubmit={this.handleSearchInput}>
                                 <div className="form-group">
                                     <div className="row align-items-end">
