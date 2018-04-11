@@ -4,7 +4,7 @@ import logo from '../assets/images/logo.svg';
 import axios from "axios";
 import {Link} from 'react-router-dom';
 import AddForm from './add-employee-form';
-import {fetchEmployeeData,deleteEmployee} from '../actions';
+import {fetchEmployeeData,deleteEmployee,getAllEmployees} from '../actions';
 import {connect} from 'react-redux';
 import DeleteModal from './delete-modal';
 import '../assets/css/modal.css';
@@ -26,6 +26,8 @@ class Home extends Component{
     }
     async componentWillMount(){
        const response= this.props.fetchEmployeeData();
+       const allEmployees= this.props.getAllEmployees();
+       console.log('these are now the props ', this.props);
 
     }
     handleInput(e){
@@ -48,7 +50,7 @@ class Home extends Component{
     filterList(){
         const {input}= this.state.form;
         let filteredArray=[];
-        const list= this.props.employees.employees.map((item, index)=>{
+        const list= this.props.allEmployees.allEmployees.map((item, index)=>{
             for(let employeeProperty in item){
                 if(employeeProperty==='name'){
                     const lowerCaseName= item[employeeProperty].toLowerCase();
@@ -89,7 +91,8 @@ class Home extends Component{
         }
     }
     renderEmployees(){
-        if(!this.props.employees.employees.length){
+        console.log("these are the props", this.props);
+        if(this.props.employees.employees.length===0){
             return;
         }else{
             const employeeList= this.props.employees.employees.map((item, index)=>{
@@ -143,9 +146,7 @@ class Home extends Component{
     renderArrow(direction){
         if(!this.props.employees.employees.length){
             return;
-            console.log('these are the props', this.props);
         }else{
-            console.log('we made it to else', this.props);
             const pageNumber= this.props.employees.pageInfo.pageable.pageNumber; 
             const maxPage= this.props.employees.pageInfo.totalPages-1;
             if(direction==='right'){
@@ -233,7 +234,8 @@ class Home extends Component{
 function mapStateToProps(state){
     return{
         employees: state.fetchEmployees,
-        pageInfo: state.fetchEmployees
+        pageInfo: state.fetchEmployees,
+        allEmployees: state.allEmployees
     }
 }
-export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee}) (Home);
+export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee, getAllEmployees}) (Home);
