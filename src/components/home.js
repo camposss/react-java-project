@@ -27,7 +27,6 @@ class Home extends Component{
     async componentWillMount(){
        const response= this.props.fetchEmployeeData();
        const allEmployees= this.props.getAllEmployees();
-       console.log('these are now the props ', this.props);
 
     }
     handleInput(e){
@@ -40,12 +39,12 @@ class Home extends Component{
         });
     }
     handleSearchInput(e){
+        const {resultsFound}= this.state;
+        console.log('reuslts found? ', resultsFound);
         e.preventDefault();
-        console.log('this is the current value of input ', this.state.form);
         this.setState({
             resultsFound:false
         })
-        // this.resetSearchInput();
     }
     filterList(){
         const {input}= this.state.form;
@@ -69,14 +68,18 @@ class Home extends Component{
         })
         if(!filteredArray.length){
             console.log('we are returning nothing');
-            // return(
-            //     <h2>No Results. Please Try Again.</h2>
-            // );
+            console.log('these are the new props', this.props);
+            return(
+                <tr>
+                    <td className="pesky-td text-center" colSpan="5">
+                        <h2 className="text-danger">No Results Found. Please Try Again</h2>
+                    </td>
+                </tr>
+            );            
         }else{
-            console.log('this is the filtered array right before mapping ', filteredArray);
             const filteredList= filteredArray.map((item, index)=>{
                 return (
-                    <tr key={index}>
+                    <tr key={index} data="true">
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
@@ -86,21 +89,17 @@ class Home extends Component{
                         </td>
                     </tr>
                 )
-            }); 
+            });
             return filteredList;      
         }
     }
     renderEmployees(){
-        console.log("these are the props", this.props);
         if(this.props.employees.employees.length===0){
             return;
         }else{
             const employeeList= this.props.employees.employees.map((item, index)=>{
-                // if(index>=10){
-                //     return;
-                // }
                 return (
-                    <tr key={index}>
+                    <tr key={index} data="true">
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
@@ -181,9 +180,7 @@ class Home extends Component{
                 </div>
                 <div className="row">
                     <AddForm/>
-                    
                 </div>
-
                 {!showModal? '': <DeleteModal closeModal={()=>this.closeModal()} employeeId= {employeeId}/>}
                 <div className="row table-container">
                     <div className="col-lg">
@@ -208,6 +205,7 @@ class Home extends Component{
                                     </div>
                                 </div>
                             </form>
+                        <div className="inside-table-container">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -222,10 +220,9 @@ class Home extends Component{
                                 {input===''? this.renderEmployees(): this.filterList()}
                             </tbody>
                         </table>
-                        {resultsFound? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
+                        </div>
                     </div>
                 </div>
-                
             </div>
         );
     }
@@ -235,7 +232,7 @@ function mapStateToProps(state){
     return{
         employees: state.fetchEmployees,
         pageInfo: state.fetchEmployees,
-        allEmployees: state.allEmployees
+        allEmployees: state.allEmployees,
     }
 }
 export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee, getAllEmployees}) (Home);
