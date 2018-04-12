@@ -27,7 +27,6 @@ class Home extends Component{
     async componentWillMount(){
        const response= this.props.fetchEmployeeData();
        const allEmployees= this.props.getAllEmployees();
-       console.log('these are now the props ', this.props);
 
     }
     handleInput(e){
@@ -41,17 +40,11 @@ class Home extends Component{
     }
     handleSearchInput(e){
         const {resultsFound}= this.state;
-        // console.log('reuslts found? ', resultsFound);
-        console.log('these are the refs', this.refs);
+        console.log('reuslts found? ', resultsFound);
         e.preventDefault();
-        if(!this.refs.results){
-            console.log('we already go something to show!');
-            return;
-        }
         this.setState({
             resultsFound:false
         })
-        // this.resetSearchInput();
     }
     filterList(){
         const {input}= this.state.form;
@@ -75,14 +68,18 @@ class Home extends Component{
         })
         if(!filteredArray.length){
             console.log('we are returning nothing');
+            console.log('these are the new props', this.props);
             return(
-                <div ref="results"></div>
-            );
+                <tr>
+                    <td className="pesky-td text-center" colSpan="5">
+                        <h2 className="text-danger">No Results Found. Please Try Again</h2>
+                    </td>
+                </tr>
+            );            
         }else{
-            console.log('this is the filtered array right before mapping ', filteredArray);
             const filteredList= filteredArray.map((item, index)=>{
                 return (
-                    <tr key={index} ref="results">
+                    <tr key={index} data="true">
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
@@ -97,16 +94,12 @@ class Home extends Component{
         }
     }
     renderEmployees(){
-        console.log("these are the props", this.props);
         if(this.props.employees.employees.length===0){
             return;
         }else{
             const employeeList= this.props.employees.employees.map((item, index)=>{
-                // if(index>=10){
-                //     return;
-                // }
                 return (
-                    <tr key={index}>
+                    <tr key={index} data="true">
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
@@ -118,7 +111,6 @@ class Home extends Component{
                     </tr>
                 )
             })
-
             return employeeList;
         }
     }
@@ -229,7 +221,6 @@ class Home extends Component{
                             </tbody>
                         </table>
                         </div>
-                        {!this.refs.results? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
                     </div>
                 </div>
             </div>
@@ -241,7 +232,7 @@ function mapStateToProps(state){
     return{
         employees: state.fetchEmployees,
         pageInfo: state.fetchEmployees,
-        allEmployees: state.allEmployees
+        allEmployees: state.allEmployees,
     }
 }
 export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee, getAllEmployees}) (Home);
