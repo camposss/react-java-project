@@ -172,7 +172,7 @@ class Home extends Component{
                     <div className="col-lg">
                         <div className="jumbotron text-center">
                             <h1>Welcome to Java Bank!</h1> 
-                            <p>You can bank on use to store your data! :)</p> 
+                            <p>You can bank on us to store your data!</p> 
                         </div>
                     </div>
                 </div>

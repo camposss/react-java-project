@@ -20,6 +20,7 @@ class AddForm extends Component{
         );
     }
     async addEmployee(values){
+        console.log('these are teh values', values);
         const addEmployee= await this.props.addEmployee(values);
         const singleEmployee= await this.props.fetchEmployeeData()
         const allEmployees= await this.props.getAllEmployees();
