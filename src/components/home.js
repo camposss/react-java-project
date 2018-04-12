@@ -40,9 +40,14 @@ class Home extends Component{
         });
     }
     handleSearchInput(e){
+        const {resultsFound}= this.state;
+        // console.log('reuslts found? ', resultsFound);
+        console.log('these are the refs', this.refs);
         e.preventDefault();
-        console.log('this is the current value of input ', this.state.form);
-
+        if(!this.refs.results){
+            console.log('we already go something to show!');
+            return;
+        }
         this.setState({
             resultsFound:false
         })
@@ -70,14 +75,14 @@ class Home extends Component{
         })
         if(!filteredArray.length){
             console.log('we are returning nothing');
-            // return(
-            //     <h2>No Results. Please Try Again.</h2>
-            // );
+            return(
+                <div ref="results"></div>
+            );
         }else{
             console.log('this is the filtered array right before mapping ', filteredArray);
             const filteredList= filteredArray.map((item, index)=>{
                 return (
-                    <tr key={index}>
+                    <tr key={index} ref="results">
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.phoneNumber}</td>
@@ -87,7 +92,7 @@ class Home extends Component{
                         </td>
                     </tr>
                 )
-            }); 
+            });
             return filteredList;      
         }
     }
@@ -113,6 +118,7 @@ class Home extends Component{
                     </tr>
                 )
             })
+
             return employeeList;
         }
     }
@@ -182,9 +188,7 @@ class Home extends Component{
                 </div>
                 <div className="row">
                     <AddForm/>
-                    
                 </div>
-
                 {!showModal? '': <DeleteModal closeModal={()=>this.closeModal()} employeeId= {employeeId}/>}
                 <div className="row table-container">
                     <div className="col-lg">
@@ -225,10 +229,9 @@ class Home extends Component{
                             </tbody>
                         </table>
                         </div>
-                        {resultsFound? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
+                        {!this.refs.results? '': <h2 className="text-center noResultsHeader">No Results Found. Please Try Again.</h2>  }
                     </div>
                 </div>
-                
             </div>
         );
     }
