@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../assets/css/modal.css';
-import {fetchEmployeeData, deleteEmployee} from '../actions';
+import {fetchEmployeeData, deleteEmployee, getAllEmployees} from '../actions';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
@@ -15,15 +15,14 @@ class DeleteModal extends Component{
      componentWillMount(){
         const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
         this.props.fetchEmployeeData(currentPage);
+        this.props.getAllEmployees();
     }
     renderSingleEmployee(){
         if(this.props.employees===undefined){
             return;
         }else{
-            console.log('these are the props in render single empploye', this.props);
-            const singleEmployee= this.props.employees.employees.map((item, index)=>{
+            const singleEmployee= this.props.allEmployees.allEmployees.map((item, index)=>{
                 if(item.id===this.props.employeeId){
-                    console.log('returning body');
                     return (
                         <tr key={index}>
                             <td>{item.name}</td>
@@ -41,7 +40,6 @@ class DeleteModal extends Component{
         }
     }
     async deleteEmployee(employeeId){
-        console.log('trying to delete employee with this Id', employeeId);
         const deleteOne= await this.props.deleteEmployee(employeeId);
         const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
         this.props.fetchEmployeeData(currentPage);
@@ -90,7 +88,8 @@ class DeleteModal extends Component{
 }
 function mapStateToProps(state){
     return{
-        employees: state.fetchEmployees
+        employees: state.fetchEmployees,
+        allEmployees: state.allEmployees
     }
 }
-export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee}) (DeleteModal);
+export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee, getAllEmployees}) (DeleteModal);

@@ -30,6 +30,8 @@ class Home extends Component{
 
     }
     handleInput(e){
+        // const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
+        // console.log('this is the current PAGE', currentPage);
         const {value, name}= e.target;
         const {form}= this.state;
         form[name]= value;
@@ -40,7 +42,6 @@ class Home extends Component{
     }
     handleSearchInput(e){
         const {resultsFound}= this.state;
-        console.log('reuslts found? ', resultsFound);
         e.preventDefault();
         this.setState({
             resultsFound:false
@@ -54,7 +55,6 @@ class Home extends Component{
                 if(employeeProperty==='name'){
                     const lowerCaseName= item[employeeProperty].toLowerCase();
                     const name= item[employeeProperty];
-                    // console.log(item[employeeProperty].toLowerCase());
                     if(lowerCaseName.includes(input.toLowerCase()) || name.includes(input) && typeof(item[employeeProperty]!=='number') ){
                         filteredArray.push(item);
                     }
@@ -67,8 +67,6 @@ class Home extends Component{
             }
         })
         if(!filteredArray.length){
-            console.log('we are returning nothing');
-            console.log('these are the new props', this.props);
             return(
                 <tr>
                     <td className="pesky-td text-center" colSpan="5">
@@ -115,13 +113,13 @@ class Home extends Component{
         }
     }
     showDeleteModal(employeeId){
-        console.log('we got the id', employeeId);
         this.setState({
             showModal:true,
             employeeId:employeeId
         })
     }
     closeModal(){
+        this.props.getAllEmployees();
         this.setState({
             showModal:false,
             employeeId:''
