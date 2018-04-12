@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import * as regex from '../helpers/regex';
-import {fetchEmployeeData, addEmployee} from '../actions';
+import {fetchEmployeeData, addEmployee, getAllEmployees} from '../actions';
 import {connect} from 'react-redux';
 import { Field, reduxForm } from "redux-form";
 
@@ -21,7 +21,8 @@ class AddForm extends Component{
     }
     async addEmployee(values){
         const addEmployee= await this.props.addEmployee(values);
-        this.props.fetchEmployeeData();
+        const singleEmployee= await this.props.fetchEmployeeData()
+        const allEmployees= await this.props.getAllEmployees();
         this.props.destroy();
     }
     render(){
@@ -80,4 +81,4 @@ AddForm = reduxForm({
     validate: validate
 })(AddForm);
 
-export default connect(null, {fetchEmployeeData, addEmployee}) (AddForm);
+export default connect(null, {fetchEmployeeData, addEmployee, getAllEmployees}) (AddForm);

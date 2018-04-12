@@ -15,7 +15,6 @@ class Login extends Component{
     }
     async componentWillMount(){
         const response = await this.props.fetchUserData();
-        console.log('after doing axios call with redux ', this.props.users);
     }
     renderInput({ placeholder, input, type, meta: { touched, error, active, visited } }) {
         return (
@@ -27,21 +26,13 @@ class Login extends Component{
 
         );
     }
-    // async addEmployee(values){
-    //     const addEmployee= await this.props.addEmployee(values);
-    //     this.props.fetchEmployeeData();
-    //     this.props.destroy();
-    // }
     login(values){
         const {username, password}= values;
         const users= this.props.users[0];
-        // console.log(users['username']);
         if(username===users['username'] && password===users['password']){
-            console.log('it worked!');
             this.props.history.push('/home');
 
         }else{
-            console.log('it didnt work');
             const errorMessage= "You have entered an incorrect username or password. Please try again."
             this.props.destroy();
             this.setState({
