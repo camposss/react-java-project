@@ -32,8 +32,8 @@ class EditEmployee extends Component{
     }
     render(){
         return(
-            <div className="container edit-employee-container">
-            <div className="jumbotron login-jumbo">
+            <div className="container login-container">
+            <div className="jumbotron edit-page-jumbo">
                 <div className="text-center">
                     <h2 className="page-header">Edit your employee</h2>
                 </div>

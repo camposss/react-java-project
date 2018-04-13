@@ -87,7 +87,13 @@ h2, label{
     display: none;
     /* border: 1px red solid; */
 }
-
+/* EDIT PAGE */
+/* .edit-employee-container{
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, 15%);
+} */
 
 
 /* Button display at different media queries */
@@ -100,6 +106,9 @@ h2, label{
 
     .login-jumbo{
         transform:translateY(20%);
+    }
+    .edit-page-jumbo{
+        transform:translateY(15%);
     }
     
     /* HOME PAGE */
