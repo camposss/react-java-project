@@ -83,33 +83,49 @@ h2, label{
     position: absolute;
     top: 0;
 }
-
-/* .col-5.offset-1.search-column, .right-arrow{
-    padding-left:0px!important;
-    padding-right: 30px;
-} */
-/* .loader {
-    border: 16px solid #f3f3f3; 
-    border-top: 16px solid #3498db; 
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+.previousButtonMobile{
+    display: none;
+    /* border: 1px red solid; */
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-} */
 
-/* EDIT EMPLOYEE PAGE */
 
-.edit-employee-container{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+/* Button display at different media queries */
+/* FOR MOBILE */
+@media only screen and (max-width: 414px) {
+    *{
+        font-size: 0.90rem;
+    }
+    /* LOGIN PAGE */
+
+    .login-jumbo{
+        transform:translateY(20%);
+    }
+    
+    /* HOME PAGE */
+    .logout{
+        position: absolute;
+        top: 0;
+        right: 5%;
+    }
+    .previousButtonMobile{
+        display: block;
+        visibility: visible;
+        /* border: 1px red solid; */
+    }
+    .previousButtonDesktop{
+        visibility: hidden;
+    }
+    .nextButton{
+        text-align: right!important;
+    }
+    .search-filter-div{
+        margin-bottom: 5%
+    }
+    .search-input-column{
+        padding-left: 2%;
+    }
+    /* .search-input-button{
+        padding-left: 0;
+    } */
 }
-/* .pesky-td{
-    border: 1px solid red;
-} */

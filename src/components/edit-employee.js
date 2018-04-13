@@ -33,6 +33,7 @@ class EditEmployee extends Component{
     render(){
         return(
             <div className="container edit-employee-container">
+            <div className="jumbotron login-jumbo">
                 <div className="text-center">
                     <h2 className="page-header">Edit your employee</h2>
                 </div>
@@ -55,6 +56,7 @@ class EditEmployee extends Component{
                         </form>
                     </div>
                 </div>
+            </div>
             </div>
            
         );
