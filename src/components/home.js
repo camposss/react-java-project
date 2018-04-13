@@ -171,6 +171,9 @@ class Home extends Component{
                 <div className="row">
                     <div className="col-lg">
                         <div className="jumbotron text-center">
+                            <div className="row justify-content-end">
+                                <button onClick={()=>this.props.history.push("/")} className="btn btn-outline-secondary logout">Logout</button>
+                            </div>
                             <h1>Welcome to Java Bank!</h1> 
                             <p>You can bank on us to store your data!</p> 
                         </div>

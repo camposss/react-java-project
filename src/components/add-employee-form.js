@@ -20,7 +20,9 @@ class AddForm extends Component{
         );
     }
     async addEmployee(values){
-        console.log('these are teh values', values);
+        let onlyNumber = values.phoneNumber.replace(/\D/g, '');
+        onlyNumber = onlyNumber.replace(/^(\d{3})(\d{3})(\d{4})+$/, "($1) $2-$3");
+        values.phoneNumber= onlyNumber;
         const addEmployee= await this.props.addEmployee(values);
         const singleEmployee= await this.props.fetchEmployeeData()
         const allEmployees= await this.props.getAllEmployees();
@@ -37,7 +39,7 @@ class AddForm extends Component{
                     </div>
                     <div className="form-group">
                         <label htmlFor="phoneNumber" >Phone Number</label>
-                        <Field placeholder="(xxx) xxx-xxxx" name='phoneNumber' label='Phone Number' type='tel' component={this.renderInput}/>
+                        <Field placeholder="(###) ###-####" name='phoneNumber' label='Phone Number' type='tel' component={this.renderInput}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="supervisor" >Supervisor</label>

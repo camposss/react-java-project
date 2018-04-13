@@ -23,6 +23,9 @@ class EditEmployee extends Component{
     }
     async updateEmployee(values){
         const employeeId= this.props.match.params.id;
+        let onlyNumber = values.phoneNumber.replace(/\D/g, '');
+        onlyNumber = onlyNumber.replace(/^(\d{3})(\d{3})(\d{4})+$/, "($1) $2-$3");
+        values.phoneNumber= onlyNumber;
         const updateEmployee =await this.props.updateEmployee(values, employeeId)
         const updateList= await this.props.fetchEmployeeData();
         this.props.history.push('/home');
@@ -42,7 +45,7 @@ class EditEmployee extends Component{
                                 </div>
                             <div className="form-group">
                                 <label htmlFor="phoneNumber" >Phone Number</label>
-                                <Field placeholder="(xxx) xxx-xxxx" name='phoneNumber' label='Phone Number' type='tel' component={this.renderInput}/>
+                                <Field placeholder="(###) ###-####" name='phoneNumber' label='Phone Number' type='tel' component={this.renderInput}/>
                                 </div>
                             <div className="form-group">
                                 <label htmlFor="supervisor" >Supervisor</label>
