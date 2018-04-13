@@ -51,24 +51,24 @@ class Login extends Component{
                     </div>
                         <form onSubmit={this.props.handleSubmit(this.login.bind(this))}>
                             <div className="row align-items-center justify-content-center">
-                                <div className="col-4">
+                                <div className="col-12 col-lg-4">
                                     <div className="form-group">
                                         <label htmlFor="username text-left" >Username</label>
                                         <Field placeholder="Enter your username" name='username' label='Username' type='text' component={this.renderInput}/>
                                     </div>
                                 </div>
-                                <div className="col-4">
+                                <div className="col-12 col-lg-4">
                                     <div className="form-group">
                                         <label htmlFor="password" >Password</label>
                                         <Field placeholder="Enter your password" name='password' label='Password' type='password' component={this.renderInput}/>
                                     </div>
                                 </div>
-                                <div className="col-2">
+                                <div className="col-12 col-lg-2">
                                     <button className="btn btn-success">Login</button>
                                 </div>
                             </div>
                             <div className="row justify-content-center">
-                                <p className="text-danger ">{!incorrectCredentials? '': incorrectCredentials}</p>
+                                <p className="text-danger">{!incorrectCredentials? '': incorrectCredentials}</p>
                             </div>
                         </form>
                     </div>

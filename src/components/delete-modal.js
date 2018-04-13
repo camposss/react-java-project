@@ -58,11 +58,11 @@ class DeleteModal extends Component{
                                 <div>
                                     <div className='card-block'>
                                     <h5 className="text-center confirmDeleteHeader">Are you sure want to delete the following entry?</h5>
-                                    <table className="table pull-left">
+                                    <table className="table table-responsive-sm">
                                     <thead>
                                         <tr>
-                                            <th>Employee Name</th>
-                                            <th>Phone Number</th>
+                                            <th>Name</th>
+                                            <th>Number</th>
                                             <th>Supervisor</th>
                                             <th>Operations</th>
                                         </tr>

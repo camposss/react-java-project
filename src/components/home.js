@@ -20,14 +20,19 @@ class Home extends Component{
                 input: ''
             },
             showModal: false,
-            resultsFound:true
+            resultsFound:true,
+            loaded: false
         }
         this.handleSearchInput=this.handleSearchInput.bind(this);
     }
     async componentWillMount(){
-       const response= this.props.fetchEmployeeData();
-       const allEmployees= this.props.getAllEmployees();
-
+       const response= await this.props.fetchEmployeeData();
+       const allEmployees= await this.props.getAllEmployees();
+       if(response.payload.status===200){
+            this.setState({
+                loaded: true
+            })
+       }      
     }
     handleInput(e){
         // const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
@@ -149,14 +154,14 @@ class Home extends Component{
             if(direction==='right'){
                 return(
                     <div onClick= {()=>this.nextPage()}
-                        className={pageNumber!==maxPage? "col-3 right-arrow text-center": "col-3 text-center hide-arrow"}>
+                        className={pageNumber!==maxPage? "text-right col-md-3 col-6 right-arrow text-lg-center": "text-right col-md-3 text-lg-center hide-arrow"}>
                         Next Page <img src={rightArrow}/>
                     </div>
                 )
             }else if(direction==='left'){
                 return(
                     <div onClick= {()=>this.prevPage()} 
-                        className={pageNumber >0? "col-3 left-arrow": "col-3 hide-arrow"}>
+                        className={pageNumber >0? "previousButtonDesktop col-md-3 left-arrow": "previousButtonDesktop col-md-3 hide-arrow"}>
                         <img src={leftArrow}/> Previous Page
                     </div>
                 )
@@ -164,8 +169,12 @@ class Home extends Component{
         }
     }
     render(){
+        const {showModal, employeeId, resultsFound,loaded} =this.state;
         const {input}= this.state.form;
-        const {showModal, employeeId, resultsFound} =this.state;
+        if(!loaded){
+            return <h2>Loading</h2>;
+        }
+        const pageNumber= this.props.employees.pageInfo.pageable.pageNumber;         
         return(
             <div className="container">
                 <div className="row">
@@ -187,32 +196,36 @@ class Home extends Component{
                     <div className="col-lg">
                             <form onSubmit={this.handleSearchInput}>
                                 <div className="form-group">
-                                    <div className="row align-items-end">
+                                    <div className="row align-items-end ">
                                         {this.renderArrow("left")}
-                                        <div className="col-5 offset-1 justify-content-center">
-                                            <div className="row align-items-end justify-content-end">
-                                                <div className="col-9">
+                                        <div className="col-md-6 col-12 justify-content-center">
+                                            <div className="row align-items-end justify-content-end search-filter-div">
+                                                <div className="col-9 search-input-column">
                                                     <label htmlFor="name">Search Filter</label>
                                                     <input placeholder= "Enter Employee Name or ID" className="form-control" type="text" 
                                                     name="input" value={input} 
                                                     onChange= {((e)=>this.handleInput(e))}/>
                                                 </div>
-                                                <div className="col-3">
+                                                <div className="col-3 search-input-button">
                                                     <button className="btn btn-primary">Search</button>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div onClick= {()=>this.prevPage()} 
+                                            className={pageNumber >0? "previousButtonMobile col-6 left-arrow": "previousButtonMobile col-6 hide-arrow"}>
+                                            <img src={leftArrow}/> Previous Page
                                         </div>
                                         {this.renderArrow("right")}
                                     </div>
                                 </div>
                             </form>
                         <div className="inside-table-container">
-                        <table className="table">
+                        <table className="table table-responsive-sm">
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Employee Name</th>
-                                    <th>Phone Number</th>
+                                    <th>Name</th>
+                                    <th>Number</th>
                                     <th>Supervisor</th>
                                     <th>Operations</th>
                                 </tr>
@@ -234,6 +247,6 @@ function mapStateToProps(state){
         employees: state.fetchEmployees,
         pageInfo: state.fetchEmployees,
         allEmployees: state.allEmployees,
-    }
+        }
 }
 export default connect(mapStateToProps, {fetchEmployeeData, deleteEmployee, getAllEmployees}) (Home);
