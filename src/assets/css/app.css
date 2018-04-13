@@ -79,7 +79,10 @@ h2, label{
 .hide-arrow:hover{
     cursor:not-allowed
 }
-
+.logout{
+    position: absolute;
+    top: 0;
+}
 
 /* .col-5.offset-1.search-column, .right-arrow{
     padding-left:0px!important;
