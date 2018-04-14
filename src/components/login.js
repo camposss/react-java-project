@@ -82,9 +82,6 @@ function mapStateToProps(state){
     }
 }
 function validate(values) {
-    // const {username, password}= values;
-    // const users= this.props.users[0];
-
     const error = {};
     error.invalidUsername =regex.validateName(values.name);
     error.invalidSupervisor= regex.validateName(values.supervisor);

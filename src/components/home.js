@@ -35,8 +35,6 @@ class Home extends Component{
        }      
     }
     handleInput(e){
-        // const currentPage= this.props.employees.pageInfo.pageable.pageNumber;
-        // console.log('this is the current PAGE', currentPage);
         const {value, name}= e.target;
         const {form}= this.state;
         form[name]= value;
