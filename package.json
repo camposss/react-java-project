@@ -4,7 +4,7 @@
   "description": "Starting setup for react redux project",
   "main": "index.js",
   "proxy": {
-    "/main/*": {
+    "/java/*": {
       "target": "http://localhost"
     }
   },
