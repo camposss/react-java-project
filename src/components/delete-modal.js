@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import '../assets/css/modal.css';
 import {fetchEmployeeData, deleteEmployee, getAllEmployees} from '../actions';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 
 
 class DeleteModal extends Component{

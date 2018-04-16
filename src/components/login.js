@@ -19,7 +19,6 @@ class Login extends Component{
     renderInput({ placeholder, input, type, meta: { touched, error, active, visited } }) {
         return (
             <span>
-                {/*<label>{label}</label>*/}
                 <input placeholder= {placeholder} className="form-control" type={type} {...input} />
                 <p className="inputErrorMessage text-danger text-center">{ input.name==='' ? touched && visited && error : touched && !active && error }</p>
             </span>
@@ -98,9 +97,6 @@ function validate(values) {
     if(error.invalidPassword){
         error.password= "Please enter a valid password";
     }
-    // if(values.username!==users['username'] && values.password!==users['password']){
-    //     error.
-    // }
     return error;
 }
 

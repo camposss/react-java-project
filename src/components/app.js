@@ -5,9 +5,7 @@ import {Route} from "react-router-dom";
 import Login from './login';
 
 class App extends Component{
-    
   render() {
-
     return (
         <div>
             <Route exact path="/" component={Login} />
@@ -16,8 +14,5 @@ class App extends Component{
         </div>
     );
   }
-
 }
-
-
 export default App;
