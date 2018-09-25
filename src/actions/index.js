@@ -2,7 +2,7 @@ import axios from "axios";
 import types from "./types.js";
 
 
-const fetch_users_url = "http://localhost:8080/api/users";
+const fetch_users_url = "/api/users";
 export function fetchUserData() {
     const request = axios.get(fetch_users_url);
     return {
@@ -10,7 +10,7 @@ export function fetchUserData() {
         payload: request
     };
 }
-const fetch_all_employees = "http://localhost:8080/api/employees/";
+const fetch_all_employees = "/api/employees/";
 export function getAllEmployees() {
     const request = axios.get(fetch_all_employees);
     return {
@@ -19,7 +19,7 @@ export function getAllEmployees() {
     };
 }
 
-const fetch_employees_url = "http://localhost:8080/api/employees/page/";
+const fetch_employees_url = "/api/employees/page/";
 export function fetchEmployeeData(page=0) {
     const request = axios.get(fetch_employees_url+page);
     return {
@@ -27,7 +27,7 @@ export function fetchEmployeeData(page=0) {
         payload: request
     };
 }
-const fetch_single_employee_url = "http://localhost:8080/api/employees/";
+const fetch_single_employee_url = "/api/employees/";
 export function fetchSingleEmployee(employeeId) {
     const request = axios.get(fetch_single_employee_url+employeeId);
     return {
@@ -36,7 +36,7 @@ export function fetchSingleEmployee(employeeId) {
     };
 }
 
-const add_employee_url = "http://localhost:8080/api/employees";
+const add_employee_url = "/api/employees";
 export function addEmployee(values) {
     const request = axios.post(add_employee_url, {
         "name": values.name,
@@ -49,7 +49,7 @@ export function addEmployee(values) {
         payload: request
     };
 }
-const delete_employee_url = "http://localhost:8080/api/employees/";
+const delete_employee_url = "/api/employees/";
 export function deleteEmployee(employeeId) {
     const request = axios.delete(delete_employee_url+employeeId);
     return {
@@ -57,7 +57,7 @@ export function deleteEmployee(employeeId) {
         payload: request
     };
 }
-const update_employee_url = "http://localhost:8080/api/employees/";
+const update_employee_url = "/api/employees/";
 export function updateEmployee(form,employeeId) {
     const request = axios.put(update_employee_url+employeeId, {
         name: form.name,

@@ -5,7 +5,7 @@
   "main": "index.js",
   "proxy": {
     "/java/*": {
-      "target": "http://christianxcampos.com/java-bank"
+      "target": "http://localhost:8080"
     }
   },
   "scripts": {
