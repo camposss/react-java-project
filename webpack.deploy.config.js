@@ -1,12 +1,13 @@
 const { resolve } = require('path');
+const path = require('path')
 const webpack = require('webpack');
 
 module.exports = {
     entry: [ 'babel-polyfill', './index.js' ],
     output: {
         filename: 'bundle.js',
-        path: resolve(__dirname, 'dist'),
-        publicPath: '/'
+        path: path.join(__dirname, '../../../target/classes/static'),
+        publicPath: ''
     },
     context: resolve(__dirname, 'src'),
     module: {
